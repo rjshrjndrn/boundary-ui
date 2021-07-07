@@ -463,6 +463,8 @@ export default function () {
     ({ credentialStores }, { queryParams: { scope_id: scopeId } }) =>
       credentialStores.where({ scopeId })
   );
+  this.get('/credential-stores/:id');
+  this.patch('/credential-stores/:id');
 
   /* Uncomment the following line and the Response import above
    * Then change the response code to simulate error responses.

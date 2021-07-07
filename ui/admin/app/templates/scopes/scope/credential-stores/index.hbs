@@ -1,9 +1,9 @@
 <Rose::Layout::Page as |page|>
   <page.header>
     <h2>
-      {{t 'resources.credential-stores.title_plural'}}
+      {{t 'resources.credential-store.title_plural'}}
     </h2>
-    <p>{{t 'resources.credential-stores.description'}}</p>
+    <p>{{t 'resources.credential-store.description'}}</p>
   </page.header>
 
   <page.breadcrumbs>Breadcrumbs</page.breadcrumbs>
@@ -24,7 +24,11 @@
           {{#each @model as |credentialStore|}}
             <body.row as |row|>
               <row.headerCell>
-                {{credentialStore.displayName}}
+                <LinkTo
+                  @route='scopes.scope.credential-stores.credential-store'
+                  @model={{credentialStore.id}}>
+                  {{credentialStore.displayName}}
+                </LinkTo>
                 <p>{{credentialStore.description}}</p>
               </row.headerCell>
               <row.cell>{{credentialStore.type}}</row.cell>

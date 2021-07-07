@@ -1,0 +1,40 @@
+<Rose::Form
+  @onSubmit={{@submit}}
+  @disabled={{@model.isSaving}}
+  @error={{@model.errors.base}}
+  @showEditToggle={{if @model.isNew false true}}
+  as |form|>
+
+  <form.input
+    @value={{@model.type}}
+    @label={{t 'form.type.label'}}
+    readonly={{true}}
+    @disabled={{true}}
+  />
+
+  <form.input
+    @name='name'
+    @type='name'
+    @value={{@model.name}}
+    @label={{t 'form.name.label'}}
+    @helperText={{t 'form.name.help'}}
+    readonly={{false}}
+    as |field|>
+  </form.input>
+
+  <form.textarea
+    @name='description'
+    @type='description'
+    @value={{@model.description}}
+    @label={{t 'form.description.label'}}
+    @helperText={{t 'form.description.help'}}
+    disabled={{@model.isSaving}}
+    readonly={{false}} />
+
+  <form.actions
+    @disabled={{if @model.cannotSave @model.cannotSave}}
+    @enableEditText={{t 'actions.edit-form'}}
+    @submitText={{t 'actions.save'}}
+    @cancelText={{t 'actions.cancel'}}
+  />
+</Rose::Form>
