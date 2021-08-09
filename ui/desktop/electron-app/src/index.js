@@ -44,8 +44,9 @@ protocol.registerSchemesAsPrivileged([
 
 let mainWindow = null;
 
+const isTest = process.env.NODE_ENV === 'test';
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+  if (process.platform !== 'darwin' || isTest) {
     app.quit();
   }
 });
