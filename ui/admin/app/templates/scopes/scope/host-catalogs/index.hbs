@@ -27,8 +27,25 @@
 
   <page.body>
 
-    {{#if @model}}
+    <Rose::Form 
+      @onSubmit={{route-action 'search' @model}}
+      as |form|>
+        <form.input
+          @name='search'
+          @type='search'
+          @value={{@model.searchQuery}}
+          readonly={{false}}
+        />
 
+        <form.actions
+          @submitText="Search"
+          @cancelText="Cancel"
+          @showCancel={{true}}
+          @cancel={{route-action 'clearSearch' @model}}
+        />
+    </Rose::Form>
+
+    {{#if @model}}
       <Rose::Table as |table|>
         <table.header as |header|>
           <header.row as |row|>

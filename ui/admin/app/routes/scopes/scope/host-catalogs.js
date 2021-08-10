@@ -12,6 +12,8 @@ export default class ScopesScopeHostCatalogsRoute extends Route {
   @service notify;
   @service session;
 
+  queryParams = {};
+
   // =methods
 
   /**
@@ -27,7 +29,8 @@ export default class ScopesScopeHostCatalogsRoute extends Route {
    */
   async model() {
     const { id: scope_id } = this.modelFor('scopes.scope');
-    return this.store.query('host-catalog', { scope_id });
+    this.queryParams.scope_id = scope_id;
+    return this.store.query('host-catalog', this.queryParams);
   }
 
   // =actions
@@ -75,6 +78,24 @@ export default class ScopesScopeHostCatalogsRoute extends Route {
   async delete(hostCatalog) {
     await hostCatalog.destroyRecord();
     await this.replaceWith('scopes.scope.host-catalogs');
+    this.refresh();
+  }
+
+  /**
+   * Search host catalog list
+   */
+  @action
+  async search({ searchQuery: query }) {
+    this.queryParams.search = query;
+    this.refresh();
+  }
+
+  /**
+   * Remove host catalog search filter
+   */
+  @action
+  async clearSearch() {
+    delete this.queryParams.search;
     this.refresh();
   }
 }

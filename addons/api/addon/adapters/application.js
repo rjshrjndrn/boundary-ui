@@ -96,12 +96,27 @@ export default class ApplicationAdapter extends RESTAdapter.extend(
 
   /**
    * Intercepts "empty" responses and adds an empty `items` array.
+   * If `search` is defined in query options, API request will
+   * replace it with filter option that is set to filter name,
+   * description, and type for search text.
    * @override
    * @method query
+   * @param {Store} store
+   * @param {Model} type
+   * @param {Object} options
    * @return {Promise} promise
    */
-  query() {
-    return super.query(...arguments).then(prenormalizeArrayResponse);
+  query(store, type, options) {
+    const search = options.search;
+    if (search) {
+      options.filter = `"/item/name" matches "${search}" or "/item/description" matches "${search}" or "/item/type" matches "${search}"`;
+      delete options.search;
+    }
+    if (!search) {
+      delete options.filter;
+    }
+    console.debug('query options:', options);
+    return super.query(store, type, options).then(prenormalizeArrayResponse);
   }
 
   /**
