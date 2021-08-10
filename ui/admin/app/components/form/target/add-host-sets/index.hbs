@@ -7,11 +7,26 @@
     @error={{@model.errors.base}}
     as |form|
   >
-
     <form.actions
       @submitText={{t 'resources.target.actions.add-host-sets'}}
       @cancelText={{t 'actions.cancel'}}
     />
+
+Add filtering here
+
+    <Rose::Dropdown @text="Host Catalog" @showCaret={{true}} as |dropdown|>
+      {{#each this.availableHostCatalogs as |hostCatalog|}}
+        <dropdown.item>
+          <form.checkbox 
+            @name={{concat 'checkbox-' hostCatalog.id}}
+            @label={{hostCatalog.name}}
+            @disabled={{false}}
+            @inline={{false}}
+            onChange={{fn this.toggleHostCatalogFilter hostCatalog.id}}
+          />
+        </dropdown.item>
+      {{/each}}
+    </Rose::Dropdown>
 
     <Rose::Table as |table|>
       <table.header as |header|>
