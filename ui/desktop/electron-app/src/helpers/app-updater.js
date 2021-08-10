@@ -127,6 +127,11 @@ module.exports = {
     // Do nothing on Windows - yet
     if (isWindows()) return;
 
+    if (process.env.BYPASS_APP_UPDATER) {
+      console.warn('WARNING: Bypassing app updater');
+      return;
+    }
+
     let latestVersion;
     if (debug) {
       latestVersion = process.env.APP_UPDATER_LATEST_VERSION_TAG;

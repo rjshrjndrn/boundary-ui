@@ -11,7 +11,7 @@ QUnit.module('Initial end to end testing', async function (hooks) {
       args: [path.join(__dirname, '..')],
       env: {
         NODE_ENV: 'test',
-        RELEASE_VERSION: '10.0.0',
+        BYPASS_APP_UPDATER: true,
       },
       chromeDriverArgs: ['--no-sandbox'],
       chromeDriverLogPath: 'chromedriverlog.json',
