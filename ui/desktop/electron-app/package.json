@@ -16,7 +16,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "test": "yarn premake && qunit tests/"
+    "test": "cd .. && yarn build:desktop && cd electron-app/ && BYPASS_APP_UPDATER=true NODE_ENV=test qunit tests/"
   },
   "keywords": [],
   "config": {
