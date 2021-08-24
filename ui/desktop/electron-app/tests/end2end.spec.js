@@ -13,26 +13,31 @@ test.beforeEach(async () => {
   });
 });
 
-test.afterEach( async () => {
+test.afterEach(async () => {
   electronApp.close();
-  // electronApp = null; // Not sure we should do this.
+  electronApp = null; // Not sure we should do this.
 });
 
 test.describe('Basic end to end test for electron', async () => {
   test('The app opens succesfully', async () => {
     const boundaryWindow = await electronApp.firstWindow(); // The window that contains the app.
+    // Override local storage origin
+    await boundaryWindow.evaluate(() =>
+      window.localStorage.setItem('desktop:origin', null)
+    );
     const windowCount = electronApp.windows().length; // Total electron windows open.
 
-    console.log('Title: ', await boundaryWindow.title());
-    console.log('H2: ', await boundaryWindow.innerText('h2'));
-    // await boundaryWindow.innerText('h2');
-
-    expect(windowCount).toEqual(1);
-    // expect(await boundaryWindow.title()).toEqual('Boundary');
+    expect(windowCount).toEqual(1); // To have just one window
+    expect(await boundaryWindow.title()).toEqual('Boundary'); // The app title is Boundary.
+    expect(await boundaryWindow.innerText('h2')).toEqual('Welcome to Boundary'); // We are on the set origin screen, first screen of the app.
   });
 
-  test.skip('Connects to Boundary and login', async () => {
+  test('Connects to Boundary and login', async () => {
     const boundaryWindow = await electronApp.firstWindow(); // The window that contains the app.
+    // Override local storage origin
+    await boundaryWindow.evaluate(() =>
+      window.localStorage.setItem('desktop:origin', null)
+    );
     const originValue = 'http://localhost:9200';
     const authLoginNameValue = 'admin';
     const authLoginPasswordValue = 'password';
@@ -43,18 +48,20 @@ test.describe('Basic end to end test for electron', async () => {
     // Click the submit button
     // Due to an error with await boundaryWindow.click('button[type="submit"]'); we are using a workaround.
     // More info about it here: https://github.com/microsoft/playwright/issues/1808
-    await boundaryWindow.$eval('button[type="submit"]', (element) => element.click());
+    await boundaryWindow.$eval('button[type="submit"]', (element) =>
+      element.click()
+    );
+    // Fill user & password
+    await boundaryWindow.fill('[name="identification"]', authLoginNameValue);
+    await boundaryWindow.fill('[name="password"]', authLoginPasswordValue);
 
+    // Click submit
+    await boundaryWindow.$eval('button[type="submit"]', (element) =>
+      element.click()
+    );
+    await boundaryWindow.waitForSelector('h2 >> text=Targets');
+    console.log()
 
-
-
-
-
-    // await boundaryWindow.pause();
-
-    // await boundaryWindow.fill('.ember-text-field', originValue);
-    // console.log(await boundaryWindow.innerText('button'));
-    // await boundaryWindow.click('button');
-    expect(2).toEqual(2);
+    expect(await boundaryWindow.innerText('h2 >> text=Targets')).toEqual('Targets ');
   });
 });

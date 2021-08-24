@@ -16,7 +16,7 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
-    "test": "BYPASS_APP_UPDATER=true npx playwright test --headed"
+    "test": "npx playwright test --headed"
   },
   "keywords": [],
   "config": {
