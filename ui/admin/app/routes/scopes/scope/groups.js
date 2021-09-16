@@ -36,9 +36,12 @@ export default class ScopesScopeGroupsRoute extends Route {
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
       if (params.id !== null) {
-        return this.store.query('group', {
-          scope_id,
-          filter: `"/item/id" == "${params.id}"`,
+        // return this.store.query('group', {
+        //   scope_id,
+        //   filter: `"/item/id" == "${params.id}"`,
+        // });
+        return this.store.filter('group', scope_id, {
+          id: params.id,
         });
       } else {
         return this.store.query('group', {
