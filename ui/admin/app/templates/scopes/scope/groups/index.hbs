@@ -41,7 +41,7 @@
             as |dropdown|
           >
             <Rose::Form as |form|>
-              {{#each this.availableGroups as |group|}}
+              {{#each @model as |group|}}
                 <dropdown.item>
                   <form.checkbox
                     @name={{group.id}}
@@ -60,7 +60,7 @@
             as |dropdown|
           >
             <Rose::Form as |form|>
-              {{#each this.availableGroups as |group|}}
+              {{#each @model as |group|}}
                 <dropdown.item>
                   <form.checkbox
                     @name={{group.displayName}}
