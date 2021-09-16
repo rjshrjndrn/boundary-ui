@@ -25,6 +25,7 @@
 
     {{#if @model}}
       <div style='display: flex;'>
+        {{log 'swqd' this.availableGroups}}
         <Rose::Form as |form|>
           <form.input
             @name='search'
@@ -35,39 +36,36 @@
           />
         </Rose::Form>
         <div>
-          <Rose::Dropdown
-            @text={{t 'resources.group.filter.id'}}
-            @dropdownRight={{true}}
-            as |dropdown|
-          >
-            <Rose::Form as |form|>
-              {{#each @model as |group|}}
+          <Rose::Form as |form|>
+            <Rose::Dropdown @text={{t 'resources.group.filter.id'}} @showCaret={{true}} as |dropdown|>
+              {{#each this.availableGroups as |group|}}
                 <dropdown.item>
                   <form.checkbox
-                    @name={{group.id}}
+                    @name={{concat 'checkbox-' group.id}}
+                    @label={{group.id}}
                     @disabled={{false}}
-                    @label={{group.displayName}}
                     @inline={{false}}
-                    onChange={{fn this.toggleGroupFilter group.id}}
+                    onChange={{route-action 'filterGroups' group.id}}
                   />
                 </dropdown.item>
               {{/each}}
-            </Rose::Form>
-          </Rose::Dropdown>
+            </Rose::Dropdown>
+
+          </Rose::Form>
           <Rose::Dropdown
             @text={{t 'resources.group.filter.name'}}
             @dropdownRight={{true}}
             as |dropdown|
           >
             <Rose::Form as |form|>
-              {{#each @model as |group|}}
+              {{#each this.availableGroups as |group|}}
                 <dropdown.item>
                   <form.checkbox
-                    @name={{group.displayName}}
+                    @name={{concat 'checkbox-' group.name}}
                     @disabled={{false}}
-                    @label={{group.displayName}}
+                    @label={{group.name}}
                     @inline={{false}}
-                    onChange={{fn this.toggleGroupFilter group.displayName}}
+                    onChange={{route-action 'filterGroups' group.id}}
                   />
                 </dropdown.item>
               {{/each}}
