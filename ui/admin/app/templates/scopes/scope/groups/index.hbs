@@ -1,5 +1,4 @@
 <Rose::Layout::Page as |page|>
-
   <page.breadcrumbs>
     <BreadCrumbs />
   </page.breadcrumbs>
@@ -25,9 +24,61 @@
   <page.body>
 
     {{#if @model}}
+      <div style='display: flex;'>
+        <Rose::Form as |form|>
+          <form.input
+            @name='search'
+            @type='text'
+            @value={{this.search}}
+            @label={{t 'form.search.label'}}
+            style='width:40%'
+          />
+        </Rose::Form>
+        <div>
+          <Rose::Dropdown
+            @text={{t 'resources.group.filter.id'}}
+            @dropdownRight={{true}}
+            as |dropdown|
+          >
+            <Rose::Form as |form|>
+              {{#each this.availableGroups as |group|}}
+                <dropdown.item>
+                  <form.checkbox
+                    @name={{group.id}}
+                    @disabled={{false}}
+                    @label={{group.displayName}}
+                    @inline={{false}}
+                    onChange={{fn this.toggleGroupFilter group.id}}
+                  />
+                </dropdown.item>
+              {{/each}}
+            </Rose::Form>
+          </Rose::Dropdown>
+          <Rose::Dropdown
+            @text={{t 'resources.group.filter.name'}}
+            @dropdownRight={{true}}
+            as |dropdown|
+          >
+            <Rose::Form as |form|>
+              {{#each this.availableGroups as |group|}}
+                <dropdown.item>
+                  <form.checkbox
+                    @name={{group.displayName}}
+                    @disabled={{false}}
+                    @label={{group.displayName}}
+                    @inline={{false}}
+                    onChange={{fn this.toggleGroupFilter group.displayName}}
+                  />
+                </dropdown.item>
+              {{/each}}
+            </Rose::Form>
+          </Rose::Dropdown>
+        </div>
+      </div>
 
       <Rose::Table as |table|>
         <table.header as |header|>
+
           <header.row as |row|>
             <row.headerCell>{{t 'form.name.label'}}</row.headerCell>
             <row.headerCell>{{t 'form.id.label'}}</row.headerCell>

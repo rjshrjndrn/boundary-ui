@@ -12,11 +12,17 @@ export default class ScopesScopeGroupsRoute extends Route {
   @service notify;
   @service session;
   @service can;
-  // =methods
+  @service store;
 
+  queryParams = {
+    id: {
+      refreshModel: true,
+    },
+  };
   /**
    * If arriving here unauthenticated, redirect to index for further processing.
    */
+
   beforeModel() {
     if (!this.session.isAuthenticated) this.transitionTo('index');
   }
@@ -25,11 +31,20 @@ export default class ScopesScopeGroupsRoute extends Route {
    * Load all groups under current scope
    * @return {Promise[GroupModel]}
    */
-  async model() {
+  async model(params) {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
-      return this.store.query('group', { scope_id });
+      if (params.id !== null) {
+        return this.store.query('group', {
+          scope_id,
+          filter: `"/item/id" == "${params.id}"`,
+        });
+      } else {
+        return this.store.query('group', {
+          scope_id,
+        });
+      }
     }
   }
 
@@ -57,11 +72,7 @@ export default class ScopesScopeGroupsRoute extends Route {
   )
   async save(group) {
     await group.save();
-    if (this.can.can('read model', group)) {
-      await this.transitionTo('scopes.scope.groups.group', group);
-    } else {
-      await this.transitionTo('scopes.scope.groups');
-    }
+    await this.transitionTo('scopes.scope.groups.group', group);
     this.refresh();
   }
 
@@ -78,5 +89,16 @@ export default class ScopesScopeGroupsRoute extends Route {
     await group.destroyRecord();
     await this.replaceWith('scopes.scope.groups');
     this.refresh();
+  }
+
+  @action
+  @loading
+  async filterGroups(group) {
+    // const scope = this.modelFor('scopes.scope');
+    // const { id: scope_id } = scope;
+    console.log(group, '??grpip');
+    await this.transitionTo('scopes.scope.groups', {
+      queryParams: { id: group },
+    });
   }
 }
