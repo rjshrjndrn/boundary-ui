@@ -59,6 +59,9 @@ group:
   title: Group
   title_plural: Groups
   description: Groups are collections of users. Groups may be assigned to roles to receive the role’s grants.
+  filter:
+    id: ID
+    name: Name
   messages:
     welcome:
       title: Welcome to Groups
