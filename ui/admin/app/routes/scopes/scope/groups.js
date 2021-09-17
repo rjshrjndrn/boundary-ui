@@ -41,7 +41,7 @@ export default class ScopesScopeGroupsRoute extends Route {
         //   filter: `"/item/id" == "${params.id}"`,
         // });
         return this.store.filter('group', scope_id, {
-          id: params.id,
+          ids: [params.id],
         });
       } else {
         return this.store.query('group', {

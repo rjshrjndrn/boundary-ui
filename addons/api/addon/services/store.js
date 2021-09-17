@@ -11,8 +11,16 @@ export default class StoreService extends Store {
     const filters = [];
     // API filters
     // Should filterOptions support arrays?
+    // IDs - array
+    // Types - array
+    // Text - string
 
-    if (filterOptions.id) filters.push(`"/item/id" in "${filterOptions.id}"`);
+    // What will search string use - name/description/id/host-catalog description?
+    // Should name and description be regex?
+
+    // Filter facets
+
+    if (filterOptions.id) filters.push(`"/item/id" == "${filterOptions.id}"`);
     if (filterOptions.name) filters.push(`"/item/name" in "${filterOptions.name}"`);
     if (filterOptions.type) filters.push(`"/item/type" in "${filterOptions.type}"`);
 
