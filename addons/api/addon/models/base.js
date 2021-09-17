@@ -2,6 +2,7 @@ import Model from '@ember-data/model';
 import { attr } from '@ember-data/model';
 import { fragment } from 'ember-data-model-fragments/attributes';
 import { computed } from '@ember/object';
+import { inject as service } from '@ember/service';
 
 /**
  * Base model class provides common functionality for all models.
@@ -26,6 +27,9 @@ import { computed } from '@ember/object';
  *   2) Or as an ID:  `record.scopeID`.
  */
 export default class BaseModel extends Model {
+  // =services
+
+  @service store;
   // =relationships
 
   /**
