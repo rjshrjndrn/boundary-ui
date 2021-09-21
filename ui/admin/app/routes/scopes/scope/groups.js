@@ -100,6 +100,7 @@ export default class ScopesScopeGroupsRoute extends Route {
     // const scope = this.modelFor('scopes.scope');
     // const { id: scope_id } = scope;
     console.log(group, '??grpip');
+    // this.search - where is it defined - how to apply to filter?
     await this.transitionTo('scopes.scope.groups', {
       queryParams: { id: group },
     });
