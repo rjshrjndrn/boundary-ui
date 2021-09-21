@@ -7,7 +7,7 @@ export default class ScopesScopeGroupsIndexController extends Controller {
    * availableGroups
    * @param {[GroupModel]} availableGroups
    */
-  get availableGroups() {                   
+get availableGroups() {                   
     return this.store.peekAll('group')
   }
 }
