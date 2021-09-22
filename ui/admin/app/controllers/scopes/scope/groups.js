@@ -1,9 +1,6 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-// import { computed } from '@ember/object';
-
-console.log('controllelrrrrr')
 export default class ScopesScopeGroupsController extends Controller {
   // =services
 
@@ -16,7 +13,6 @@ export default class ScopesScopeGroupsController extends Controller {
    * @type {string}
    */
   get breadCrumb() {
-    console.log('when', this.model);
     return this.intl.t('resources.group.title_plural');
   }
 

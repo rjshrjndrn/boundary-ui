@@ -36,7 +36,6 @@
             style='width:40%'
           />
           <Rose::Button
-            {{!-- @submit={{true}} --}}
             @style='secondary'
             title={{t 'search'}}
             {{on 'click' (route-action 'search' @model.name)}}
@@ -61,7 +60,7 @@
             </Rose::Dropdown>
 
           </Rose::Form>
-          <Rose::Dropdown
+          {{!-- <Rose::Dropdown
             @text={{t 'resources.group.filter.name'}}
             @dropdownRight={{true}}
             as |dropdown|
@@ -79,7 +78,7 @@
                 </dropdown.item>
               {{/each}}
             </Rose::Form>
-          </Rose::Dropdown>
+          </Rose::Dropdown> --}}
         </div>
       </div>
 
