@@ -44,7 +44,46 @@
           </Rose::Button>
         </Rose::Form>
         <div>
-          <Rose::Form as |form|>
+          <Rose::Dropdown
+@text={{t 'resources.group.filter.id'}} 
+@showCaret={{true}} as |dropdown|
+>
+            <dropdown.section @title='id'>
+              <Rose::Form as |form|>
+                 
+                <form.radioGroup
+                  @name='id'
+                  @selectedValue={{group.id}}
+                  @changed={{route-action 'filterGroups'}}
+                  as |radioGroup|
+                >
+                {{#each this.availableGroups as |group|}}
+                 <dropdown.item>
+                    <radioGroup.radio 
+                      @label={{group.id}}
+                      {{!-- onChange={{route-action 'filterGroups' group.id}}  --}}
+                      @value={{group.id}}/>
+                  </dropdown.item>
+                 {{/each}}
+                  
+                  {{!-- <dropdown.item>
+                    <radioGroup.radio
+                      @label={{t 'themes.light'}}
+                      @value='light'
+                    />
+                  </dropdown.item>
+                  <dropdown.item>
+                    <radioGroup.radio
+                      @label={{t 'themes.dark'}}
+                      @value='dark'
+                    />
+                  </dropdown.item> --}}
+                </form.radioGroup>
+              </Rose::Form>
+            </dropdown.section>
+</Rose::Dropdown>
+
+          {{!-- <Rose::Form as |form|>
             <Rose::Dropdown @text={{t 'resources.group.filter.id'}}  @ignoreClickInside={{true}} @showCaret={{true}} as |dropdown|>
               {{#each this.availableGroups as |group|}}
                 <dropdown.item>
@@ -59,7 +98,7 @@
               {{/each}}
             </Rose::Dropdown>
 
-          </Rose::Form>
+          </Rose::Form> --}}
           {{!-- <Rose::Dropdown
             @text={{t 'resources.group.filter.name'}}
             @dropdownRight={{true}}
@@ -88,6 +127,7 @@
           <header.row as |row|>
             <row.headerCell>{{t 'form.name.label'}}</row.headerCell>
             <row.headerCell>{{t 'form.id.label'}}</row.headerCell>
+
           </header.row>
         </table.header>
         <table.body as |body|>
@@ -114,6 +154,8 @@
                 >
                   <code>{{group.id}}</code>
                 </Copyable>
+             
+
               </row.cell>
             </body.row>
           {{/each}}

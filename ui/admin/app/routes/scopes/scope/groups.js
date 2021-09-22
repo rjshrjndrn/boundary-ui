@@ -42,6 +42,7 @@ export default class ScopesScopeGroupsRoute extends Route {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
+      //todo: pass params to custom store 
       if(params.name) {
         return this.store.filter('group', scope_id, {
           name: [params.name]
@@ -106,14 +107,15 @@ export default class ScopesScopeGroupsRoute extends Route {
   @action
   @loading
   async filterGroups(group) { 
-     if (!this.selectedGroupsIds.includes(group)) {
-      this.selectedGroupsIds.addObject(group);
+    //for multi select
+    //  if (!this.selectedGroupsIds.includes(group)) {
+    //   this.selectedGroupsIds.addObject(group);
     
-    } else {
-      this.selectedGroupsIds.removeObject(group);
-    }
+    // } else {
+    //   this.selectedGroupsIds.removeObject(group);
+    // }
     await this.transitionTo('scopes.scope.groups', {
-      queryParams: { id: this.selectedGroupsIds },
+      queryParams: { id: group },
     });
   }
 
