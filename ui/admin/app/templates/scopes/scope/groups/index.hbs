@@ -25,7 +25,9 @@
 
     {{#if @model}}
       <div style='display: flex;'>
-        <Rose::Form as |form|>
+        <Rose::Form 
+          @onSubmit={{route-action 'filterGroups'}}
+          as |form|>
           <form.input
             @name='search'
             @type='text'

@@ -19,7 +19,7 @@ export default class ScopesScopeGroupsRoute extends Route {
     id: {
       refreshModel: true,
     },
-    searchTerm: {
+    name: {
       refreshModel: true,
     }
   };
@@ -42,13 +42,16 @@ export default class ScopesScopeGroupsRoute extends Route {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
-      console.log(params, 'paramssss')
-      if (params.id !== null) {
-        return this.store.query('group', {
-          scope_id,
-          filter: `"/item/id" contains "${params.id}" `,
+      if(params.name !== null) {
+        return this.store.filter('group', scope_id, {
+          name: [params.name]
         });
-      } 
+      }
+      if(params.id !== null) {
+        return this.store.filter('group', scope_id, {
+          ids: [params.id]
+        });
+      }
       else {
         return this.store.query('group', {
           scope_id,
@@ -124,7 +127,7 @@ export default class ScopesScopeGroupsRoute extends Route {
     //   this.selectedGroupsIds.removeObject(group);
     // }
      await this.transitionTo('scopes.scope.groups', {
-      queryParams: { searchTerm: text },
+      queryParams: { name: text },
     });
   }
 }

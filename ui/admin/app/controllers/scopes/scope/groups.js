@@ -20,11 +20,13 @@ export default class ScopesScopeGroupsController extends Controller {
     return this.intl.t('resources.group.title_plural');
   }
 
-  queryParams = ['id'];
+  queryParams = ['id', 'name'];
   id = null;
+  name= null;
 
   @tracked id = null;
 
   @tracked model;
  
+  @tracked name = null;
 }
