@@ -42,12 +42,14 @@ export default class ScopesScopeGroupsRoute extends Route {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
+      console.log(params, 'ppppp')
       if(params.name !== null) {
         return this.store.filter('group', scope_id, {
           name: [params.name]
         });
       }
-      if(params.id !== null) {
+      if(params.id !== null && params.id !== '') {
+        console.log('ingaaa')
         return this.store.filter('group', scope_id, {
           ids: [params.id]
         });
@@ -108,11 +110,14 @@ export default class ScopesScopeGroupsRoute extends Route {
   async filterGroups(group) { 
      if (!this.selectedGroupsIds.includes(group)) {
       this.selectedGroupsIds.addObject(group);
+    
     } else {
+      console.log('in elseeee')
       this.selectedGroupsIds.removeObject(group);
+      // await this.replaceWith('scopes.scope.groups');    
+      // this.refresh();
     }
-
-     await this.transitionTo('scopes.scope.groups', {
+    await this.transitionTo('scopes.scope.groups', {
       queryParams: { id: this.selectedGroupsIds },
     });
   }
@@ -120,7 +125,6 @@ export default class ScopesScopeGroupsRoute extends Route {
   @action
   @loading
   async search(text) { 
-    console.log(text, 'texttt')
     //  if (!this.selectedGroupsIds.includes(group)) {
     //   this.selectedGroupsIds.addObject(group);
     // } else {

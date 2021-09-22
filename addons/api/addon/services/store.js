@@ -8,7 +8,6 @@ export default class StoreService extends Store {
    * });
    */
   filter(modelName, scope_id, filterOptions) {
-    console.log(filterOptions, 'filterrrrrrr')
     const filters = [];
     // API filters
     // Should filterOptions support arrays?
