@@ -5,7 +5,6 @@ export default class ScopesScopeGroupsController extends Controller {
   // =services
 
   @service intl;
-  @service store;
   // =attributes
 
   /**

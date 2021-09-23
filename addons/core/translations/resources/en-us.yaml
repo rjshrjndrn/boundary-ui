@@ -88,6 +88,8 @@ host-catalog:
     delete: Delete Host Catalog
   types:
     static: Static
+  filter:
+    type: Type 
 host-set:
   title: Host Set
   title_plural: Host Sets

@@ -23,7 +23,7 @@ export default class ScopesScopeGroupsRoute extends Route {
       refreshModel: true,
     }
   };
-  selectedGroupsIds = A();
+  // selectedGroupsIds = A();
 
 
   /**
@@ -106,7 +106,7 @@ export default class ScopesScopeGroupsRoute extends Route {
 
   @action
   @loading
-  async filterGroups(group) { 
+  async filterGroups(group) {
     //for multi select
     //  if (!this.selectedGroupsIds.includes(group)) {
     //   this.selectedGroupsIds.addObject(group);
