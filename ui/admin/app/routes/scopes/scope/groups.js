@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import loading from 'ember-loading/decorator';
 import { confirm } from 'core/decorators/confirm';
 import { notifySuccess, notifyError } from 'core/decorators/notify';
+import { A } from '@ember/array';
 
 export default class ScopesScopeGroupsRoute extends Route {
   // =services
@@ -18,7 +19,13 @@ export default class ScopesScopeGroupsRoute extends Route {
     id: {
       refreshModel: true,
     },
+    name: {
+      refreshModel: true,
+    }
   };
+  // selectedGroupsIds = A();
+
+
   /**
    * If arriving here unauthenticated, redirect to index for further processing.
    */
@@ -35,15 +42,18 @@ export default class ScopesScopeGroupsRoute extends Route {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
-      if (params.id !== null) {
-        // return this.store.query('group', {
-        //   scope_id,
-        //   filter: `"/item/id" == "${params.id}"`,
-        // });
+      //todo: pass params to custom store 
+      if(params.name) {
         return this.store.filter('group', scope_id, {
-          ids: [params.id],
+          name: [params.name]
         });
-      } else {
+      }
+      if(params.id) {
+        return this.store.filter('group', scope_id, {
+          ids: [params.id]
+        });
+      }
+      else {
         return this.store.query('group', {
           scope_id,
         });
@@ -97,12 +107,23 @@ export default class ScopesScopeGroupsRoute extends Route {
   @action
   @loading
   async filterGroups(group) {
-    // const scope = this.modelFor('scopes.scope');
-    // const { id: scope_id } = scope;
-    console.log(group, '??grpip');
-    // this.search - where is it defined - how to apply to filter?
+    //for multi select
+    //  if (!this.selectedGroupsIds.includes(group)) {
+    //   this.selectedGroupsIds.addObject(group);
+    
+    // } else {
+    //   this.selectedGroupsIds.removeObject(group);
+    // }
     await this.transitionTo('scopes.scope.groups', {
       queryParams: { id: group },
+    });
+  }
+
+  @action
+  @loading
+  async search(text) { 
+     await this.transitionTo('scopes.scope.groups', {
+      queryParams: { name: text },
     });
   }
 }

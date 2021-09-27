@@ -4,6 +4,7 @@ import { action } from '@ember/object';
 import loading from 'ember-loading/decorator';
 import { confirm } from 'core/decorators/confirm';
 import { notifySuccess, notifyError } from 'core/decorators/notify';
+import { A } from '@ember/array';
 
 export default class ScopesScopeHostCatalogsRoute extends Route {
   // =services
@@ -12,8 +13,15 @@ export default class ScopesScopeHostCatalogsRoute extends Route {
   @service notify;
   @service session;
   @service can;
+  @service store;
   // =methods
 
+  queryParams = {
+    type: {
+      refreshModel: true,
+    }
+  };
+  // selectedGroupsIds = A();
   /**
    * If arriving here unauthenticated, redirect to index for further processing.
    */
@@ -25,14 +33,22 @@ export default class ScopesScopeHostCatalogsRoute extends Route {
    * Loads all host catalogs under the current scope.
    * @return {Promise{[HostCatalogModel]}}
    */
-  async model() {
+  async model(params) {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (
       this.can.can('list collection', scope, { collection: 'host-catalogs' })
     ) {
-      return this.store.query('host-catalog', { scope_id });
-    }
+      if(params.type) {
+        return this.store.filter('host-catalog', scope_id, {
+          name: [params.name]
+        });
+      }
+      else {
+        return this.store.query('host-catalog', {
+          scope_id,
+        });
+      }    }
   }
 
   // =actions
@@ -81,5 +97,28 @@ export default class ScopesScopeHostCatalogsRoute extends Route {
     await hostCatalog.destroyRecord();
     await this.replaceWith('scopes.scope.host-catalogs');
     this.refresh();
+  }
+
+  @action
+  @loading
+  async filterHostCatalogs(hostCatalog) {
+    //for multi select
+    //  if (!this.selectedGroupsIds.includes(group)) {
+    //   this.selectedGroupsIds.addObject(group);
+    
+    // } else {
+    //   this.selectedGroupsIds.removeObject(group);
+    // }
+    await this.transitionTo('scopes.scope.host-catalogs', {
+      queryParams: { type: hostCatalog },
+    });
+  }
+
+  @action
+  @loading
+  async search(text) { 
+     await this.transitionTo('scopes.scope.host-catalogs', {
+      queryParams: { name: text },
+    });
   }
 }

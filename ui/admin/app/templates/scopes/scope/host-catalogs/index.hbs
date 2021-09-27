@@ -30,6 +30,102 @@
   <page.body>
 
     {{#if @model}}
+   <div style='display: flex;'>
+        <Rose::Form 
+          @onSubmit={{route-action 'filterHostCatalogs'}}
+          as |form|>
+          <form.input
+            @name='search'
+            @type='text'
+            @value={{@model.name}}
+            @label={{t 'form.search.label'}}
+            style='width:40%'
+          />
+          <Rose::Button
+            @style='secondary'
+            title={{t 'search'}}
+            {{on 'click' (route-action 'search' @model.name)}}
+          >
+           search
+          </Rose::Button>
+        </Rose::Form>
+        <div>
+          <Rose::Dropdown
+@text={{t 'resources.host-catalog.filter.id'}} 
+@showCaret={{true}} as |dropdown|
+>
+            <dropdown.section @title='id'>
+              <Rose::Form as |form|>
+                 
+                <form.radioGroup
+                  @name='id'
+                  @selectedValue={{group.id}}
+                  @changed={{route-action 'filterGroups'}}
+                  as |radioGroup|
+                >
+                {{#each this.availableGroups as |group|}}
+                 <dropdown.item>
+                    <radioGroup.radio 
+                      @label={{group.id}}
+                      {{!-- onChange={{route-action 'filterGroups' group.id}}  --}}
+                      @value={{group.id}}/>
+                  </dropdown.item>
+                 {{/each}}
+                  
+                  {{!-- <dropdown.item>
+                    <radioGroup.radio
+                      @label={{t 'themes.light'}}
+                      @value='light'
+                    />
+                  </dropdown.item>
+                  <dropdown.item>
+                    <radioGroup.radio
+                      @label={{t 'themes.dark'}}
+                      @value='dark'
+                    />
+                  </dropdown.item> --}}
+                </form.radioGroup>
+              </Rose::Form>
+            </dropdown.section>
+</Rose::Dropdown>
+
+          {{!-- <Rose::Form as |form|>
+            <Rose::Dropdown @text={{t 'resources.group.filter.id'}}  @ignoreClickInside={{true}} @showCaret={{true}} as |dropdown|>
+              {{#each this.availableGroups as |group|}}
+                <dropdown.item>
+                  <form.checkbox
+                    @name={{concat 'checkbox-' group.id}}
+                    @label={{group.id}}
+                    @disabled={{false}}
+                    @inline={{false}}
+                    onChange={{route-action 'filterGroups' group.id}}
+                  />
+                </dropdown.item>
+              {{/each}}
+            </Rose::Dropdown>
+
+          </Rose::Form> --}}
+          {{!-- <Rose::Dropdown
+            @text={{t 'resources.group.filter.name'}}
+            @dropdownRight={{true}}
+            as |dropdown|
+          >
+            <Rose::Form as |form|>
+              {{#each this.availableGroups as |group|}}
+                <dropdown.item>
+                  <form.checkbox
+                    @name={{concat 'checkbox-' group.name}}
+                    @disabled={{false}}
+                    @label={{group.name}}
+                    @inline={{false}}
+                    onChange={{route-action 'filterGroups' group.id}}
+                  />
+                </dropdown.item>
+              {{/each}}
+            </Rose::Form>
+          </Rose::Dropdown> --}}
+        </div>
+      </div>
 
       <Rose::Table as |table|>
         <table.header as |header|>

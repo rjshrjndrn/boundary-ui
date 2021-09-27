@@ -21,7 +21,7 @@ export default class StoreService extends Store {
     // Filter facets
 
     if (filterOptions.ids) filters.push(filterOptions.ids.map((id) => `"/item/id" == "${id}"`).join(' and '));
-    if (filterOptions.name) filters.push(`"/item/name" in "${filterOptions.name}"`);
+    if (filterOptions.name) filters.push(`"/item/name" matches "${filterOptions.name}"`);
     if (filterOptions.type) filters.push(`"/item/type" in "${filterOptions.type}"`);
 
     // What about inclusive filters?
