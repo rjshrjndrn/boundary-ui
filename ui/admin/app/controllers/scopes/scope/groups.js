@@ -2,8 +2,6 @@ import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
 // import { computed } from '@ember/object';
-
-console.log('controllelrrrrr')
 export default class ScopesScopeGroupsController extends Controller {
   // =services
 
