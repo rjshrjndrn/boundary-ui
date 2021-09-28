@@ -42,16 +42,8 @@ export default class ScopesScopeGroupsRoute extends Route {
     const scope = this.modelFor('scopes.scope');
     const { id: scope_id } = scope;
     if (this.can.can('list collection', scope, { collection: 'groups' })) {
-      //todo: pass params to custom store 
-      if(params.name) {
-        return this.store.filter('group', scope_id, {
-          name: [params.name]
-        });
-      }
-      if(params.id) {
-        return this.store.filter('group', scope_id, {
-          ids: [params.id]
-        });
+      if (params) {
+        return this.store.filter('group', scope_id, params);
       }
       else {
         return this.store.query('group', {
