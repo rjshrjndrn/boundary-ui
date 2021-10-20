@@ -53,6 +53,7 @@ export default class ScopesScopeSessionsRoute extends Route {
    */
   async model() {
     const { id: scope_id } = this.modelFor('scopes.scope');
+    //before querying to the store, filter based on query params
     const sessions = await this.store.query('session', { scope_id });
     const sessionAggregates = await all(
       sessions.map(session => hash({
@@ -75,6 +76,8 @@ export default class ScopesScopeSessionsRoute extends Route {
     let sortedSessionAggregates =
       A(sessionAggregates).sortBy('session.created_time').reverse();
     // Then move active sessions to the top...
+    console.log(sortedSessionAggregates, 'sssprtedddd');
+    //filter if session id matches with selected ids 
     sortedSessionAggregates = [
       ...sortedSessionAggregates.filter((aggregate) => aggregate.session.status === 'active'),
       ...sortedSessionAggregates.filter((aggregate) => aggregate.session.status !== 'active'),
