@@ -6,6 +6,7 @@ import { task, timeout } from 'ember-concurrency';
 import { A } from '@ember/array';
 import { notifySuccess, notifyError } from 'core/decorators/notify';
 import config from '../../../config/environment';
+import loading from 'ember-loading/decorator';
 
 const POLL_TIMEOUT_SECONDS = config.sessionPollingTimeoutSeconds;
 
@@ -100,7 +101,6 @@ export default class ScopesScopeSessionsRoute extends Route {
   }
 
   // =actions
-
   /**
    * Cancels the specified session and notifies user of success or error.
    * @param {SessionModel}
@@ -112,4 +112,8 @@ export default class ScopesScopeSessionsRoute extends Route {
     await session.cancelSession();
   }
 
+  @action
+  async checkboxGroupChanged() {
+     console.log('checkboxGroupChangedcheckboxGroupChanged')
+  }
 }

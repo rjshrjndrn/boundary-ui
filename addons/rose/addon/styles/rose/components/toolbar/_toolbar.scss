@@ -1,0 +1,11 @@
+.rose-toolbar {
+  background-color: var(--ui-gray-subtler-6);
+  display: flex;
+  padding: 5px;
+  .rose-form {
+    display: flex;
+  }
+  .rose-dropdown {
+    margin-left: auto;
+  }
+}

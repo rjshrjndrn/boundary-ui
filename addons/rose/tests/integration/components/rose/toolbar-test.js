@@ -12,10 +12,8 @@ module('Integration | Component | rose/toolbar', function (hooks) {
     assert.ok(find('.rose-toolbar'));
   });
 
-  test('it renders with filter', async function (assert) {
-    await render(hbs`<Rose::Toolbar as |toolbar| >
-      <toolbar.filter />
-    </Rose::Toolbar>`);
-    assert.ok(find('.rose-toolbar-search'));
+  test('it renders with attributes', async function (assert) {
+    await render(hbs`<Rose::Toolbar id="toolbar"/>`);
+    assert.ok(find('#toolbar'));
   });
 });

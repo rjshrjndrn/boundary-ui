@@ -16,23 +16,27 @@
 
     {{#if @model}}
       <Rose::Toolbar>
-        <Rose::Form as |form|>
+        <Rose::Form>
           <Rose::Dropdown
             @text={{t 'actions.filter.status'}}
             @ignoreClickInside={{true}}
             as |dropdown|
           >
             <Rose::Form::Checkbox::Group
-            @items={{this.availableSessions}}
-              @name='status' as |checkboxGroup|>
-                <dropdown.item>
-                  <checkboxGroup.checkbox
-                    @checked={{session.isCancelable}}
-                    @label={{session.status}}
-                    @value={{session.status}}
-                  />
-                </dropdown.item>
-            
+              @items={{this.availableSessions}}
+              @selectedItems={{this.selectedItems}}
+              {{!-- @onChange={{fn this.checkboxdddGroupChanged}} --}}
+              @onChange={{route-action 'checkboxGroupChanged'}}
+              @name='status'
+              as |checkboxGroup|
+            >
+              <dropdown.item>
+                <checkboxGroup.checkbox
+                  @checked={{checkboxGroup.item.isCancelable}}
+                  @label={{checkboxGroup.item.status}}
+                  @value={{checkboxGroup.item.status}}
+                />
+              </dropdown.item>
             </Rose::Form::Checkbox::Group>
           </Rose::Dropdown>
         </Rose::Form>

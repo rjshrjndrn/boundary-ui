@@ -8,6 +8,7 @@ export default class RoseFormCheckboxGroupComponent extends Component {
 
   @action
   toggleValue(value) {
+    console.log(value, 'valllll')
     let currentItems = [...this.args.selectedItems];
     if (currentItems.includes(value)) {
       currentItems = currentItems.filter(item => item !== value);
