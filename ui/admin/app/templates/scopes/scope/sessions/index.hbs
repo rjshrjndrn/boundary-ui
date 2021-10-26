@@ -22,11 +22,12 @@
             @ignoreClickInside={{true}}
             as |dropdown|
           >
+          {{{log this.selectedItems 'wss'}}}
             <Rose::Form::Checkbox::Group
               @items={{this.availableSessions}}
               @selectedItems={{this.selectedItems}}
               {{!-- @onChange={{fn this.checkboxdddGroupChanged}} --}}
-              @onChange={{route-action 'checkboxGroupChanged' this.selectedItems}}
+              @onChange={{route-action 'checkboxGroupChanged' this.availableSessions}}
               @name='status'
               as |checkboxGroup|
             >
@@ -34,7 +35,7 @@
                 <checkboxGroup.checkbox
                   @checked={{checkboxGroup.item.isCancelable}}
                   @label={{checkboxGroup.item.status}}
-                  @value={{checkboxGroup.item.status}}
+                  value={{checkboxGroup.item.status}}
                 />
               </dropdown.item>
             </Rose::Form::Checkbox::Group>

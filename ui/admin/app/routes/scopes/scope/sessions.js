@@ -6,7 +6,7 @@ import { task, timeout } from 'ember-concurrency';
 import { A } from '@ember/array';
 import { notifySuccess, notifyError } from 'core/decorators/notify';
 import config from '../../../config/environment';
-import loading from 'ember-loading/decorator';
+import { tracked } from '@glimmer/tracking';
 
 const POLL_TIMEOUT_SECONDS = config.sessionPollingTimeoutSeconds;
 
@@ -24,6 +24,7 @@ export default class ScopesScopeSessionsRoute extends Route {
       refreshModel: true,
     },
   };
+
   // =attributes
 
   /**
@@ -68,11 +69,11 @@ export default class ScopesScopeSessionsRoute extends Route {
       console.log('in here111111')
       //console.log('ddede', this.store.filterByIds('session', {scope_id, recursive: true, params }, { user: ['u_0987654321']}), 'ssss')
       // * this.store.filterByIds('session', { scope_id, recursive: true }, { user: ['u_0987654321']})
-      //sessions =  this.store.filterByIds('session', {scope_id, recursive: true, params });
+      sessions = await this.store.filterByIds('session', {scope_id, recursive: true, params });
     }
     else {
       console.log('in here????')
-      sessions =  this.store.query('session', {
+      sessions = await this.store.query('session', {
         scope_id,
       });
     }
@@ -133,8 +134,12 @@ export default class ScopesScopeSessionsRoute extends Route {
   }
 
   @action
-  async checkboxGroupChanged(session) {
+  async checkboxGroupChanged(selected) {
+    console.log(selected, 'selected from route')
     //query params shizzz
+    let session = ['pending'];
+    //this.selectedItems = [...session];
+    console.log(session, 'query params')
     await this.transitionTo('scopes.scope.sessions', {
       queryParams: { id: session },
     });

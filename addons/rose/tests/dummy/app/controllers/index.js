@@ -18,17 +18,7 @@ export default class IndexController extends Controller {
 
   @action
   checkboxGroupChanged(selected) {
-    this.selectedItems = [...selected];
-  }
-
-  @tracked items = [
-    ...possibleItems
-  ]
-
-  @tracked selectedItems = [ possibleItems[2] ]
-
-  @action
-  checkboxGroupChanged(selected) {
+    console.log(selected, 'ppppdese')
     this.selectedItems = [...selected];
   }
 
