@@ -18,8 +18,4 @@ export default class ScopesScopeSessionsIndexController extends Controller {
   get breadCrumb() {
     return this.intl.t('resources.session.title_plural');
   }
-  @action
-  checkboxdddGroupChanged() {
-    console.log('addwdf')
-  }
 }

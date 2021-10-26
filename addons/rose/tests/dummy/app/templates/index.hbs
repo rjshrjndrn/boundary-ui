@@ -2,7 +2,7 @@
 <Rose::Form::Checkbox::Group
   @items={{this.items}}
   @selectedItems={{this.selectedItems}}
-  @onChange={{fn this.checkboxGroupChanged}}
+  @onChange={{this.checkboxGroupChanged}}
   as |group|
 >
   <group.checkbox
@@ -17,7 +17,7 @@
   {{/each}}
 </p>
 
-<Rose::Button @style='primary' {{on 'click' (action this.clearSelected)}}>
+<Rose::Button @style='primary' {{on 'click' this.clearSelected}}>
   Clear Selected Items
 </Rose::Button>
 

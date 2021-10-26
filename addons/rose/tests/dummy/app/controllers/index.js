@@ -6,10 +6,20 @@ const possibleItems = [
   { id: 1, name: 'foo' },
   { id: 2, name: 'bar' },
   { id: 3, name: 'baz' },
-]
+];
 
 export default class IndexController extends Controller {
-  color = 'green';
+  // =attributes
+
+  @tracked items = [...possibleItems];
+  @tracked selectedItems = [possibleItems[2]];
+
+  // =actions
+
+  @action
+  checkboxGroupChanged(selected) {
+    this.selectedItems = [...selected];
+  }
 
   @tracked items = [
     ...possibleItems

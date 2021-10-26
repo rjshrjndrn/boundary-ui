@@ -30,6 +30,7 @@ class FilterQuery {
    */
   _generateQuery(selector, values) {
     // TODO: Check for value type
+    console.log(selector, 'selectiorrrr')
     const filters = values.map((value) => `"${selector}" == "${value}"`);
     return this._joinFilters(filters, { inclusive: true });
   }

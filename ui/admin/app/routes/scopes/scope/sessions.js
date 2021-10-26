@@ -17,7 +17,13 @@ export default class ScopesScopeSessionsRoute extends Route {
   @service intl;
   @service notify;
   @service session;
+  // @service store;
 
+  queryParams = {
+    status: {
+      refreshModel: true,
+    },
+  };
   // =attributes
 
   /**
@@ -52,10 +58,24 @@ export default class ScopesScopeSessionsRoute extends Route {
    * an array of objects containing their associated users and targets.
    * @return {Promise{[{session: SessionModel, user: UserModel, target: TargetModel}]}}
    */
-  async model() {
+  async model(params) {
     const { id: scope_id } = this.modelFor('scopes.scope');
     //before querying to the store, filter based on query params
-    const sessions = await this.store.query('session', { scope_id });
+    let sessions;
+    console.log(params, 'paaammamamamam')
+    console.log(Object.keys(params), 'ken')
+    if (Object.keys(params) === 'status') {
+      console.log('in here111111')
+      //console.log('ddede', this.store.filterByIds('session', {scope_id, recursive: true, params }, { user: ['u_0987654321']}), 'ssss')
+      // * this.store.filterByIds('session', { scope_id, recursive: true }, { user: ['u_0987654321']})
+      //sessions =  this.store.filterByIds('session', {scope_id, recursive: true, params });
+    }
+    else {
+      console.log('in here????')
+      sessions =  this.store.query('session', {
+        scope_id,
+      });
+    }
     const sessionAggregates = await all(
       sessions.map(session => hash({
         session,
@@ -113,7 +133,11 @@ export default class ScopesScopeSessionsRoute extends Route {
   }
 
   @action
-  async checkboxGroupChanged() {
-     console.log('checkboxGroupChangedcheckboxGroupChanged')
+  async checkboxGroupChanged(session) {
+    //query params shizzz
+    await this.transitionTo('scopes.scope.sessions', {
+      queryParams: { id: session },
+    });
+
   }
 }

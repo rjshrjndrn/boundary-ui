@@ -1,7 +1,7 @@
 import Controller from '@ember/controller';
 import { inject as service } from '@ember/service';
 import { tracked } from '@glimmer/tracking';
-import { action } from '@ember/object';
+
 export default class ScopesScopeSessionsController extends Controller {
   // =services
 
@@ -18,8 +18,11 @@ export default class ScopesScopeSessionsController extends Controller {
   get breadCrumb() {
     return this.intl.t('resources.session.title_plural');
   }
-  @action
-  checkboxGroupChanged() {
-    console.log('addwdf')
-  }
+
+  queryParams = ['status'];
+  status;
+
+  @tracked status;
+
+  @tracked model;
 }
